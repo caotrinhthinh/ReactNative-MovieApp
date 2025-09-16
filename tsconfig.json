@@ -3,11 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
+  "exclude": ["node_modules"],
   "include": [
     "**/*.ts",
     "**/*.tsx",
