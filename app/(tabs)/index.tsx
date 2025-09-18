@@ -9,15 +9,16 @@ import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
+
   const {
     data: movies,
-    loading,
-    error,
+    loading: moviesLoading,
+    error: moviesError,
   } = useFetch(() => fetchMovies({ query: "" }));
 
   console.log("movies", movies);
 
-  if (loading)
+  if (moviesLoading)
     return (
       <ActivityIndicator
         size="large"
@@ -25,8 +26,8 @@ export default function Index() {
         style={{ marginTop: 40 }}
       />
     );
-  if (error)
-    return <Text style={{ color: "white" }}>Error: {error.message}</Text>;
+  if (moviesError)
+    return <Text style={{ color: "white" }}>Error: {moviesError.message}</Text>;
 
   return (
     <View className="flex-1 bg-primary">
