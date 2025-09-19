@@ -1,14 +1,22 @@
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
+import TrendingCard from "@/components/TrendingCard";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
+import { getTrendingMovies } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
+
+  const {
+    data: trendingMovies,
+    loading: trendingLoading,
+    error: trendingError,
+  } = useFetch(getTrendingMovies);
 
   const {
     data: movies,
@@ -53,6 +61,23 @@ export default function Index() {
               onPress={() => router.push("/search")}
               placeholder="Search for a movie"
             />
+            {/* Trending Movies */}
+            {trendingMovies && trendingMovies?.length > 0 && (
+              <View className="mt-10">
+                <Text className="text-lg text-white font-bold mb-3">
+                  Trending Movies
+                </Text>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={trendingMovies}
+                  keyExtractor={(item) => String(item.movie_id)}
+                  renderItem={({ item, index }) => <TrendingCard />}
+                  contentContainerStyle={{ gap: 20 }}
+                />
+              </View>
+            )}
+
             <Text className="text-lg text-white font-bold mt-5 mb-3">
               Latest Movies
             </Text>

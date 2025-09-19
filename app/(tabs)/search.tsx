@@ -39,7 +39,7 @@ const Search = () => {
       } else {
         reset();
       }
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
