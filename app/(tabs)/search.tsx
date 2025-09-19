@@ -4,18 +4,37 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
-import { useRouter } from "expo-router";
-import React from "react";
-import { ActivityIndicator, FlatList, Image, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const Search = () => {
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const {
     data: movies,
     loading: moviesLoading,
+    refetch: loadMovies,
     error: moviesError,
   } = useFetch(() => fetchMovies({ query: "" }));
+
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        await loadMovies();
+
+        // Call updateSearchCount only if there are results
+        if (movies?.length! > 0 && movies?.[0]) {
+          // await updateS;
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   return (
     <View className="flex-1 bg-primary">
@@ -52,6 +71,14 @@ const Search = () => {
                 className="my-3"
               />
             )}
+
+            {moviesError && (
+              <Text className="text-red-500 px-5 my-3">
+                Error: {moviesError.message}
+              </Text>
+            )}
+
+            {/* {!moviesLoading && !moviesError && searchQ} */}
           </>
         }
       />
