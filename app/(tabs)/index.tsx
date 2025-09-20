@@ -72,12 +72,13 @@ export default function Index() {
                   showsHorizontalScrollIndicator={false}
                   data={trendingMovies}
                   keyExtractor={(item) => String(item.movie_id)}
-                  renderItem={({ item, index }) => <TrendingCard />}
+                  renderItem={({ item, index }) => (
+                    <TrendingCard movie={item} index={index} />
+                  )}
                   contentContainerStyle={{ gap: 20 }}
                 />
               </View>
             )}
-
             <Text className="text-lg text-white font-bold mt-5 mb-3">
               Latest Movies
             </Text>
